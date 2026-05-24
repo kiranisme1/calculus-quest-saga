@@ -1,0 +1,131 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hp: var(--hp);
+  --color-mp: var(--mp);
+  --color-xp: var(--xp);
+  --color-arcane: var(--arcane);
+  --color-arcane-foreground: var(--arcane-foreground);
+  --font-display: "VT323", monospace;
+  --font-body: "JetBrains Mono", monospace;
+}
+
+:root {
+  --radius: 0.25rem;
+  /* Deep arcane night */
+  --background: oklch(0.18 0.04 280);
+  --foreground: oklch(0.95 0.02 90);
+  --card: oklch(0.24 0.05 275);
+  --card-foreground: oklch(0.95 0.02 90);
+  --popover: oklch(0.22 0.05 275);
+  --popover-foreground: oklch(0.95 0.02 90);
+  --primary: oklch(0.82 0.18 90);          /* gold */
+  --primary-foreground: oklch(0.18 0.04 280);
+  --secondary: oklch(0.32 0.08 280);
+  --secondary-foreground: oklch(0.95 0.02 90);
+  --muted: oklch(0.28 0.05 280);
+  --muted-foreground: oklch(0.72 0.04 90);
+  --accent: oklch(0.65 0.22 320);          /* magic magenta */
+  --accent-foreground: oklch(0.98 0.01 90);
+  --destructive: oklch(0.62 0.24 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.4 0.06 280);
+  --input: oklch(0.28 0.05 280);
+  --ring: oklch(0.82 0.18 90);
+
+  --hp: oklch(0.65 0.24 25);
+  --mp: oklch(0.7 0.18 240);
+  --xp: oklch(0.82 0.18 130);
+  --arcane: oklch(0.7 0.2 300);
+  --arcane-foreground: oklch(0.98 0.01 90);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background:
+      radial-gradient(ellipse at top, oklch(0.28 0.08 300 / 0.6), transparent 60%),
+      radial-gradient(ellipse at bottom, oklch(0.25 0.1 240 / 0.5), transparent 60%),
+      var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer utilities {
+  .pixel-border {
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      0 0 0 4px var(--color-primary),
+      0 6px 0 4px oklch(0.12 0.04 280);
+    image-rendering: pixelated;
+  }
+  .panel {
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--color-card) 92%, white 8%),
+      var(--color-card));
+    border: 2px solid var(--color-border);
+    box-shadow:
+      inset 0 0 0 2px oklch(0.12 0.04 280 / 0.6),
+      0 8px 0 -2px oklch(0.12 0.04 280),
+      0 0 30px oklch(0.65 0.22 320 / 0.15);
+  }
+  .crt::before {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      oklch(0 0 0 / 0.18) 0 2px,
+      transparent 2px 4px);
+    mix-blend-mode: overlay;
+  }
+  .text-glow { text-shadow: 0 0 12px currentColor; }
+  .shake { animation: shake 0.4s; }
+  @keyframes shake {
+    0%,100% { transform: translate(0,0); }
+    20% { transform: translate(-6px, 4px); }
+    40% { transform: translate(6px, -3px); }
+    60% { transform: translate(-4px, 2px); }
+    80% { transform: translate(4px, -1px); }
+  }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .flash { animation: flash 0.5s; }
+  @keyframes flash {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(2.5) hue-rotate(40deg); }
+  }
+}

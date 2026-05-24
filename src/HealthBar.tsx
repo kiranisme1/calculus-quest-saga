@@ -5,28 +5,29 @@ type Props = {
   variant: "hp" | "mp" | "xp";
 };
 
-const colorMap = {
-  hp: "bg-hp",
-  mp: "bg-mp",
-  xp: "bg-xp",
-};
-
 export function HealthBar({ label, value, max, variant }: Props) {
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
+
+  let barColor = "green";
+  if (variant === "hp") barColor = "red";
+  if (variant === "mp") barColor = "blue";
+  if (variant === "xp") barColor = "purple";
+
   return (
-    <div className="space-y-1">
-      <div className="flex items-end justify-between font-display text-sm leading-none">
-        <span className="text-muted-foreground tracking-widest">{label}</span>
-        <span className="text-foreground text-glow">
-          {Math.max(0, Math.ceil(value))}/{max}
-        </span>
+    <div style={{ marginTop: "8px", marginBottom: "8px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px" }}>
+        <span>{label}</span>
+        <span>{Math.max(0, Math.ceil(value))}/{max}</span>
       </div>
-      <div className="relative h-3 w-full overflow-hidden rounded-sm border-2 border-border bg-background/60">
+      <div style={{ width: "100%", height: "12px", background: "#333", borderRadius: "4px", overflow: "hidden", marginTop: "4px" }}>
         <div
-          className={`h-full ${colorMap[variant]} transition-[width] duration-500 ease-out`}
-          style={{ width: `${pct}%` }}
+          style={{
+            height: "100%",
+            width: pct + "%",
+            background: barColor,
+            transition: "width 0.5s ease-out"
+          }}
         />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.25),transparent_40%,rgba(0,0,0,0.3))]" />
       </div>
     </div>
   );
